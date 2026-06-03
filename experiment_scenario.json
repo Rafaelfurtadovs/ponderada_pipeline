@@ -1,9 +1,9 @@
 {
-  "scenario_id": "r05_slow_tests",
+  "scenario_id": "r06_failure",
   "execution_mode": "parallel",
   "cache": "enabled",
   "generated_test_count": 18,
-  "slow_test_delay_seconds": 0.03,
-  "failing_case": null,
-  "notes": "Introducao de atraso controlado nos testes gerados."
+  "slow_test_delay_seconds": 0.0,
+  "failing_case": 3,
+  "notes": "Falha proposital em um caso gerado para medir pipeline vermelho."
 }
