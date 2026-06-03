@@ -1,9 +1,9 @@
 {
-  "scenario_id": "r07_recovery",
+  "scenario_id": "r08_no_cache",
   "execution_mode": "parallel",
-  "cache": "enabled",
+  "cache": "disabled",
   "generated_test_count": 18,
   "slow_test_delay_seconds": 0.0,
   "failing_case": null,
-  "notes": "Recuperacao apos falha proposital mantendo volume de testes."
+  "notes": "Cache de dependencias desabilitado."
 }
