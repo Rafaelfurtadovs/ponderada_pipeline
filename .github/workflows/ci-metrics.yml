@@ -1,0 +1,180 @@
+name: CI Metrics Experiment
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  prepare:
+    name: Prepare scenario
+    runs-on: ubuntu-latest
+    outputs:
+      scenario_id: ${{ steps.scenario.outputs.scenario_id }}
+      execution_mode: ${{ steps.scenario.outputs.execution_mode }}
+      cache_input: ${{ steps.scenario.outputs.cache_input }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Read experiment scenario
+        id: scenario
+        run: |
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+
+          with open("experiment_scenario.json", encoding="utf-8") as handle:
+              scenario = json.load(handle)
+
+          cache_input = "pip" if scenario.get("cache") == "enabled" else ""
+          print(f"scenario_id={scenario['scenario_id']}")
+          print(f"execution_mode={scenario['execution_mode']}")
+          print(f"cache_input={cache_input}")
+          PY
+
+  lint:
+    name: Lint
+    needs: prepare
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: ${{ needs.prepare.outputs.cache_input }}
+          cache-dependency-path: pyproject.toml
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev]"
+
+      - name: Run Ruff
+        run: |
+          mkdir -p reports
+          ruff check . | tee reports/ruff.txt
+
+      - name: Upload lint artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lint-report-${{ github.run_id }}
+          path: reports/ruff.txt
+
+  test_parallel:
+    name: Tests parallel
+    needs: prepare
+    if: needs.prepare.outputs.execution_mode == 'parallel'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: ${{ needs.prepare.outputs.cache_input }}
+          cache-dependency-path: pyproject.toml
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev]"
+
+      - name: Run Pytest
+        run: |
+          mkdir -p reports
+          set +e
+          pytest --junitxml=reports/junit.xml
+          code=$?
+          echo "$code" > reports/pytest-exit-code.txt
+          exit 0
+
+      - name: Summarize test results
+        if: always()
+        run: |
+          python scripts/summarize_tests.py \
+            --junit reports/junit.xml \
+            --scenario experiment_scenario.json \
+            --output reports/experiment-summary.json
+
+      - name: Upload test artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-${{ github.run_id }}
+          path: |
+            reports/junit.xml
+            reports/experiment-summary.json
+            reports/pytest-exit-code.txt
+
+      - name: Fail job if tests failed
+        if: always()
+        run: |
+          code="$(cat reports/pytest-exit-code.txt)"
+          exit "$code"
+
+  test_sequential:
+    name: Tests sequential
+    needs:
+      - prepare
+      - lint
+    if: always() && needs.prepare.outputs.execution_mode == 'sequential' && needs.lint.result == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: ${{ needs.prepare.outputs.cache_input }}
+          cache-dependency-path: pyproject.toml
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev]"
+
+      - name: Run Pytest
+        run: |
+          mkdir -p reports
+          set +e
+          pytest --junitxml=reports/junit.xml
+          code=$?
+          echo "$code" > reports/pytest-exit-code.txt
+          exit 0
+
+      - name: Summarize test results
+        if: always()
+        run: |
+          python scripts/summarize_tests.py \
+            --junit reports/junit.xml \
+            --scenario experiment_scenario.json \
+            --output reports/experiment-summary.json
+
+      - name: Upload test artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-${{ github.run_id }}
+          path: |
+            reports/junit.xml
+            reports/experiment-summary.json
+            reports/pytest-exit-code.txt
+
+      - name: Fail job if tests failed
+        if: always()
+        run: |
+          code="$(cat reports/pytest-exit-code.txt)"
+          exit "$code"
