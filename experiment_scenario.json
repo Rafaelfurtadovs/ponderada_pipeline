@@ -1,9 +1,9 @@
 {
-  "scenario_id": "r10_cache_restored",
-  "execution_mode": "parallel",
+  "scenario_id": "r11_sequential",
+  "execution_mode": "sequential",
   "cache": "enabled",
-  "generated_test_count": 30,
+  "generated_test_count": 18,
   "slow_test_delay_seconds": 0.0,
   "failing_case": null,
-  "notes": "Cache reabilitado mantendo a mesma quantidade de testes."
+  "notes": "Jobs de lint e teste em ordem sequencial."
 }
