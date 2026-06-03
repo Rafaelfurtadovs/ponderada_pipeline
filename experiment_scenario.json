@@ -1,9 +1,9 @@
 {
-  "scenario_id": "r09_no_cache_more_tests",
+  "scenario_id": "r10_cache_restored",
   "execution_mode": "parallel",
-  "cache": "disabled",
+  "cache": "enabled",
   "generated_test_count": 30,
   "slow_test_delay_seconds": 0.0,
   "failing_case": null,
-  "notes": "Maior volume de testes com cache desabilitado."
+  "notes": "Cache reabilitado mantendo a mesma quantidade de testes."
 }
