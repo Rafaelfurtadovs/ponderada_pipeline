@@ -1,9 +1,9 @@
 {
-  "scenario_id": "r03_cache_warm",
+  "scenario_id": "r04_more_tests",
   "execution_mode": "parallel",
   "cache": "enabled",
-  "generated_test_count": 12,
+  "generated_test_count": 24,
   "slow_test_delay_seconds": 0.0,
   "failing_case": null,
-  "notes": "Repeticao verde para observar efeito de cache aquecido."
+  "notes": "Aumento artificial da quantidade de testes gerados."
 }
