@@ -1,9 +1,9 @@
 {
-  "scenario_id": "r13_sequential_slow_wide",
-  "execution_mode": "sequential",
+  "scenario_id": "r14_parallel_slow_wide",
+  "execution_mode": "parallel",
   "cache": "enabled",
   "generated_test_count": 36,
   "slow_test_delay_seconds": 0.02,
   "failing_case": null,
-  "notes": "Cenario sequencial com suite maior e testes lentos."
+  "notes": "Cenario paralelo equivalente ao sequencial lento e amplo."
 }
