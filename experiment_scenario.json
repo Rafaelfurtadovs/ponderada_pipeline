@@ -1,9 +1,9 @@
 {
-  "scenario_id": "r04_more_tests",
+  "scenario_id": "r05_slow_tests",
   "execution_mode": "parallel",
   "cache": "enabled",
-  "generated_test_count": 24,
-  "slow_test_delay_seconds": 0.0,
+  "generated_test_count": 18,
+  "slow_test_delay_seconds": 0.03,
   "failing_case": null,
-  "notes": "Aumento artificial da quantidade de testes gerados."
+  "notes": "Introducao de atraso controlado nos testes gerados."
 }
