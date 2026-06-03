@@ -1,9 +1,9 @@
 {
-  "scenario_id": "r08_no_cache",
+  "scenario_id": "r09_no_cache_more_tests",
   "execution_mode": "parallel",
   "cache": "disabled",
-  "generated_test_count": 18,
+  "generated_test_count": 30,
   "slow_test_delay_seconds": 0.0,
   "failing_case": null,
-  "notes": "Cache de dependencias desabilitado."
+  "notes": "Maior volume de testes com cache desabilitado."
 }
