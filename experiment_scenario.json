@@ -1,9 +1,9 @@
 {
-  "scenario_id": "r06_failure",
+  "scenario_id": "r07_recovery",
   "execution_mode": "parallel",
   "cache": "enabled",
   "generated_test_count": 18,
   "slow_test_delay_seconds": 0.0,
-  "failing_case": 3,
-  "notes": "Falha proposital em um caso gerado para medir pipeline vermelho."
+  "failing_case": null,
+  "notes": "Recuperacao apos falha proposital mantendo volume de testes."
 }
