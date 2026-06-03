@@ -1,9 +1,9 @@
 {
-  "scenario_id": "r11_sequential",
-  "execution_mode": "sequential",
+  "scenario_id": "r12_parallel_pair",
+  "execution_mode": "parallel",
   "cache": "enabled",
   "generated_test_count": 18,
   "slow_test_delay_seconds": 0.0,
   "failing_case": null,
-  "notes": "Jobs de lint e teste em ordem sequencial."
+  "notes": "Cenario equivalente ao sequencial, mas com jobs paralelos."
 }
