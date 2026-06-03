@@ -1,9 +1,9 @@
 {
-  "scenario_id": "baseline",
+  "scenario_id": "r03_cache_warm",
   "execution_mode": "parallel",
   "cache": "enabled",
   "generated_test_count": 12,
   "slow_test_delay_seconds": 0.0,
   "failing_case": null,
-  "notes": "Baseline verde com cache habilitado e jobs paralelos."
+  "notes": "Repeticao verde para observar efeito de cache aquecido."
 }
