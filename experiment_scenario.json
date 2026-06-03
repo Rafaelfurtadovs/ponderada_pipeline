@@ -1,9 +1,9 @@
 {
-  "scenario_id": "r12_parallel_pair",
-  "execution_mode": "parallel",
+  "scenario_id": "r13_sequential_slow_wide",
+  "execution_mode": "sequential",
   "cache": "enabled",
-  "generated_test_count": 18,
-  "slow_test_delay_seconds": 0.0,
+  "generated_test_count": 36,
+  "slow_test_delay_seconds": 0.02,
   "failing_case": null,
-  "notes": "Cenario equivalente ao sequencial, mas com jobs paralelos."
+  "notes": "Cenario sequencial com suite maior e testes lentos."
 }
